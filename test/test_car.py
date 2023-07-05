@@ -6,6 +6,8 @@ from engine.sternman_engine import SternmanEngine
 from engine.willoughby_engine import WilloughbyEngine
 from battery.nubbin_battery import NubbinBattery
 from battery.spindler_battery import SpindlerBattery
+from tires.carrigan_tires import CarriganTires
+from tires.octoprime_tires import OctoprimeTires
 
 class TestCapulet(unittest.TestCase):
     def test_engine_should_be_serviced(self):
@@ -84,6 +86,32 @@ class TestSpindler(unittest.TestCase):
 
         battery = SpindlerBattery(today, last_service_date)
         self.assertFalse(battery.needs_service())
+
+class TestCarrigan(unittest.TestCase):
+    def test_tires_should_be_serviced(self):
+        tire_wear_readings = [0, 0, 0, 0.91]
+
+        tires = CarriganTires(tire_wear_readings)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_not_be_serviced(self):
+        tire_wear_readings = [0,0,0,0]
+
+        tires = CarriganTires(tire_wear_readings)
+        self.assertFalse(tires.needs_service())
+
+class TestOctoprime(unittest.TestCase):
+    def test_tires_should_be_serviced(self):
+        tire_wear_readings = [0.75, 0.75, 0.75, 0.75]
+
+        tires = OctoprimeTires(tire_wear_readings)
+        self.assertTrue(tires.needs_service())
+
+    def test_tires_should_not_be_serviced(self):
+        tire_wear_readings = [0.75,0.75,0.75,0.74]
+
+        tires = OctoprimeTires(tire_wear_readings)
+        self.assertFalse(tires.needs_service())
 
 if __name__ == '__main__':
     unittest.main()
